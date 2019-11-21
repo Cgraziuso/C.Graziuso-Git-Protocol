@@ -105,25 +105,29 @@ public class GitProtocolImpl implements GitProtocol {
         try {
             Repository dhtRepo = getRepoFromDht(_repo_name);
 
-            if (dhtRepo == null || ((this.repo.getCommits().size()-pendingCommit)-dhtRepo.getCommits().size()==1) )
+            int check=0;
+            if(pendingCommit>1){
+                check = pendingCommit--;
+            }
+
+            if (dhtRepo == null || ((this.repo.getCommits().size()- check) -dhtRepo.getCommits().size()==1) )
             {
                 if(dhtRepo!=null)
                 {
                     System.out.println(" push dht repo "  + dhtRepo.toString());
                 }
-                putRepoToDht(_repo_name, this.repo);
-                System.out.println("Push avvenuta con successo");
-                System.out.println("fine push mia repo"  + this.repo.toString());
+                if( putRepoToDht(_repo_name, this.repo) )
                 return "Push avvenuta con successo";
-            } else {
+            }else{
+
                 System.out.println("errore nella push, la repository non è aggiornata. Fare la pull");
                 return  "errore nella push, la repository non è aggiornata. Fare la pull";
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
-            System.out.println( "qualcosa è andato storto nella dht get/put: ");
             return "qualcosa è andato storto nella dht get/put: " + e.getMessage();
         }
+        return "";
     }
 
     public String pull(String _repo_name) {
@@ -136,16 +140,20 @@ public class GitProtocolImpl implements GitProtocol {
             if(dhtRepo.hashCode()==this.repo.hashCode()) { //nn va bene
                 return "hai già la versione più recente della repository";
             }
+
+            System.out.println("le mie pending commit  "+ pendingCommit);
             if(pendingCommit>0)
             {
                 this.repo.updateRepoWithPending(dhtRepo);
+            }else{
+                this.repo.updateRepo(dhtRepo);         // possibile errore
             }
             /*if (!dhtRepo.getCommits().contains(this.repo.getCommits()) && !this.fetch) { // conflict
                 this.fetch = true;
                 return Operationmessage.PULL_CONFLICT;
             }*/
             // if you have arrived here, everything is ok
-            this.repo.updateRepo(dhtRepo);         // possibile errore
+
             //Need to save the root directory
             String rootDirectory = this.repo.getDirectory();
 
@@ -155,12 +163,11 @@ public class GitProtocolImpl implements GitProtocol {
                     if (!this.repo.getCommits().contains(commit))
                         this.repo.getCommits().add(commit);
                 }*/
-
                 this.repo.addCommit(dhtRepo.getCommits());
                //this.repo.setCommits(dhtRepo.getCommits());
             //Restablish the root directory
             this.repo.setDirectory(rootDirectory);
-                System.out.println("dopo pull mia repo" + this.repo.toString());
+            System.out.println("dopo pull mia repo " + this.repo.toString());
         } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
         }

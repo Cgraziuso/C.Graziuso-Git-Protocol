@@ -14,7 +14,7 @@ public class Repository implements Serializable{
 
     private final Map<File, Integer> filemap =  new HashMap<File, Integer>();;
 
-    private final ArrayList<File> files =new ArrayList<File>();        // list of files
+    private final ArrayList<File> files = new ArrayList<File>();        // list of files
     private ArrayList<Commit> commits;    // list of commits
     public static final String FIRST_COMMIT_MESSAGE = "First commit";
     private String repoName;                    // name of the repository
@@ -87,7 +87,7 @@ public class Repository implements Serializable{
         for ( File f : listFiles){
             if (this.files.contains(f))
             {
-                System.out.println("contain "+ f.getName() );
+                //System.out.println("contain "+ f.getName() );
                 this.files.remove(f);
                 this.files.add(f);
                 try{
@@ -97,10 +97,10 @@ public class Repository implements Serializable{
                     System.out.println(e);
                 }
             }else{
-                System.out.println("add " + f.getName());
+                 //System.out.println("add " + f.getName());
                  this.files.add(f);
                  try{
-                     System.out.println(f.hashCode());
+                     //System.out.println(f.hashCode());     //HASHCODE FILE PRIMA DI AGGIUNTA
                      this.filemap.put(f, f.hashCode() );
                  }catch (Exception e){
                      System.out.println(e);
@@ -109,13 +109,13 @@ public class Repository implements Serializable{
             }
 
         }
-        System.out.println("Riepilogo filemap di taglia:" + filemap.size());
+        /*System.out.println("Riepilogo filemap di taglia:" + filemap.size());
         for( Map.Entry<File, Integer> entry : filemap.entrySet() )
         {
             File f =  entry.getKey();
             int l = entry.getValue();
             System.out.println("file: " + f.getName() + " value= " + l);
-        }
+        }*/
         return true;
     }
 
@@ -132,15 +132,12 @@ public class Repository implements Serializable{
     }
     public boolean addCommit(ArrayList<Commit> commitsDht )
     {
-        System.out.println("quella che ho io ++++++++++++++++ " + commits.toString());
+
         try {
             for(Commit commit : commitsDht)
             {
-
-                System.out.println("controllo commit fuori " +commits.contains(commit));
                 if (!commits.contains(commit))
                 {
-                    System.out.println("controllo commit dentro " +commits.contains(commit));
                     commits.add(commit);
                 }
             }
@@ -152,7 +149,6 @@ public class Repository implements Serializable{
     }
 
     public int randomNumber() {
-
 
         Random rand = new Random(System.currentTimeMillis());
         int number = rand.nextInt();
@@ -212,24 +208,65 @@ public class Repository implements Serializable{
 
         return true;
     }
-    public boolean updateRepoWithPending(Repository dhtRepo) throws FileNotFoundException {
+    public boolean updateRepoWithPending(Repository dhtRepo) throws IOException {
 
-
+        System.out.println("SONO NEL METODO");
         for(Map.Entry<File, Integer> entry: dhtRepo.getFilemap().entrySet()) {
-            OutputStream os = null;
             InputStream is = new FileInputStream(entry.getKey());
             File localFile = null;
-            if(this.filemap.containsKey(entry.getKey()))
-            {
-                if(!this.filemap.get(entry).equals(entry.getValue())){
+            //File fdht = new File(getDirectory()+"/" + entry.getKey().getName());
+            //System.out.println("STAMPA FILE FARLOCCO");
+            //System.out.println(fdht);
+            boolean find = false;
+            for (Map.Entry<File, Integer> entryLocal : this.getFilemap().entrySet()) {
 
+
+                if (entryLocal.getKey().getName().equals(entry.getKey().getName()) && !entryLocal.getValue().equals(entry.getValue())) {
+                    OutputStream os = null;
                     //merge
                     System.out.println("dovrei fare il merge del file " + entry.getKey().toString());
+                    String text = "";
+                    for (File f : this.files) {
+                        System.out.println("nome f " + entry.getKey().getName() + "  files f " + f.getName());
+                        if (f.getName().equals(entry.getKey().getName())) {
+                            os = new FileOutputStream(f,true);
+                            /*InputStream isLocal = new FileInputStream(f.getAbsoluteFile());
+                            try (final Reader reader = new InputStreamReader(isLocal)) {
+                                text = CharStreams.toString(reader);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            System.out.println( "testo fino ad ora ---------------------- "+ text);
+                            isLocal.close();*/
+
+                            text = text + "\n-----------------------MERGE---------------------\n";
+                            try (final Reader reader = new InputStreamReader(is)) {
+                                text = text + CharStreams.toString(reader);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            System.out.println(text);
+
+                            entryLocal.setValue(f.hashCode());
+                            os.write(text.getBytes());
+                            os.flush();
+                            os.close();
+                            find = true;
+                            break;
+                        }
+
+                    }
+
+
                 }
-            }else{
+
+            }
+            if (find == false) {
                 try {
+                    System.out.println("ricreo file"  + entry.getKey().getName() );
+                    OutputStream os = null;
                     //System.out.println("directory nella UPDATE" + getDirectory());
-                    localFile = new File(getDirectory() + "/" +entry.getKey().getName());
+                    localFile = new File(getDirectory() + "/" + entry.getKey().getName());
                     os = new FileOutputStream(localFile);
                     String text = "";
                     try (final Reader reader = new InputStreamReader(is)) {
@@ -243,15 +280,14 @@ public class Repository implements Serializable{
                     return false;
                 }
                 try {
-                    this.filemap.put(localFile, entry.getValue() );
-                    if(!this.files.contains(localFile))
+                    this.filemap.put(localFile, entry.getValue());
+                    if (!this.files.contains(localFile))
                         this.files.add(localFile);
                 } catch (Exception e) {
                     e.printStackTrace();
                     return false;
                 }
             }
-
         }
 
         return true;

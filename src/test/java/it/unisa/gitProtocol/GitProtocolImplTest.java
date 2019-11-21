@@ -39,7 +39,7 @@ public class GitProtocolImplTest {
         ArrayList<File> files = addfilepeer(new ArrayList<File>(), "testo del primo file", "1", "prova");
 
         //ADD FILE, COMMIT E PUSH
-        addCommitPush(peer1, files);
+        addCommitPush(peer1, files, "commit file 1");
         files.clear();
 
         //PULL PEER 2
@@ -51,7 +51,7 @@ public class GitProtocolImplTest {
         files = addfilepeer(new ArrayList<File>(), "testo del secondo file", "2", "prova2");
 
         //ADD FILE, COMMIT E PUSH
-        addCommitPush(peer2, files);
+        addCommitPush(peer2, files, "commit file 2");
         files.clear();
 
         //PULL PEER 1
@@ -59,23 +59,31 @@ public class GitProtocolImplTest {
         System.out.println(pull);
 
         //CREAZIONE FILE PER REPO PEER 1
-        files = addfilepeer(new ArrayList<File>(), "testo del terzo file file", "1", "prova3");
+        files = addfilepeer(new ArrayList<File>(), "testo del terzo file", "1", "prova3");
 
-        //ADD FILE, COMMIT E PUSH
-        addCommit(peer1, files);
+        //ADD FILE, COMMIT  del peer 1
+        addCommit(peer1, files, "commit file 3");
         files.clear();
 
         //CREAZIONE FILE PER REPO PEER 2
-        files = addfilepeer(new ArrayList<File>(), "testo del terzo file file", "2", "prova3");
+        files = addfilepeer(new ArrayList<File>(), "testo del terzo file file peer 2", "2", "prova3");
 
         //ADD FILE, COMMIT E PUSH
-        addCommitPush(peer1, files);
+        addCommitPush(peer2, files, "commit file 3 del peer 2");
         files.clear();
 
         //PULL PEER 1
         pull = peer1.pull("ciao");
         System.out.println(pull);
 
+
+        String push = peer1.push("ciao");
+        System.out.println(push);
+
+
+        //PULL PEER 1
+        pull = peer2.pull("ciao");
+        System.out.println(pull);
 
 
 
@@ -99,15 +107,15 @@ public class GitProtocolImplTest {
 
     }
 
-    public static void addCommitPush(GitProtocolImpl peer, ArrayList<File>files)
+    public static void addCommitPush(GitProtocolImpl peer, ArrayList<File>files, String message)
     {
         if(peer.addFilesToRepository("ciao", files))
         {
             System.out.println("\n SUCCESSFULLY ADDED FILES\n");
 
-            if(peer.commit("ciao", "prima commit. aggiunto file1"))
+            if(peer.commit("ciao", message))
             {
-                System.out.println("\n TRYING PUSH \n");
+
                 String push = peer.push("ciao");
                 System.out.println(push);
 
@@ -117,15 +125,16 @@ public class GitProtocolImplTest {
         }
     }
 
-    public static void addCommit(GitProtocolImpl peer, ArrayList<File>files)
+    public static void addCommit(GitProtocolImpl peer, ArrayList<File>files, String message)
     {
         if(peer.addFilesToRepository("ciao", files))
         {
             System.out.println("\n SUCCESSFULLY ADDED FILES\n");
 
-            if(peer.commit("ciao", "prima commit. aggiunto file1"))
+            if(peer.commit("ciao", message))
             {
-                System.out.println("\n TRYING PUSH \n");
+                peer.pendingSet(1);
+                System.out.println("\n SOLO COMMIT OK \n");
 
             }else{
                 System.out.println("\n TUTTO A PUTTANE \n");
