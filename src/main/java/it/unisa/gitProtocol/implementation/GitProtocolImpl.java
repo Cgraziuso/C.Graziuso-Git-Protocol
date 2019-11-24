@@ -97,37 +97,30 @@ public class GitProtocolImpl implements GitProtocol {
     //push
     public String push(String _repo_name) {
         if (this.repo == null)
-        {
-            System.out.println("Nessuna repository locale.");
             return "Nessuna repository locale.";
-
-        }
         try {
             Repository dhtRepo = getRepoFromDht(_repo_name);
-
+            //contains lists
             int check=0;
-            if(pendingCommit>1){
-                check = pendingCommit--;
-            }
-
-            if (dhtRepo == null || ((this.repo.getCommits().size()- check) -dhtRepo.getCommits().size()==1) )
+            if(pendingCommit>1)
+                check = pendingCommit-1;
+            if (dhtRepo == null || this.repo.getCommits().containsAll(dhtRepo.getCommits() ) )
             {
                 if(dhtRepo!=null)
-                {
                     System.out.println(" push dht repo "  + dhtRepo.toString());
+                if(putRepoToDht(_repo_name, this.repo) )
+                {
+                    pendingSet(0);
+                    return "Push avvenuta con successo";
                 }
-                if( putRepoToDht(_repo_name, this.repo) )
-                return "Push avvenuta con successo";
             }else{
-
-                System.out.println("errore nella push, la repository non è aggiornata. Fare la pull");
-                return  "errore nella push, la repository non è aggiornata. Fare la pull";
+                return  "ERRORE NELLA PUSH, LA REPOSITORY NON E' AGGIORNATA. FARE LA PULL";
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
-            return "qualcosa è andato storto nella dht get/put: " + e.getMessage();
+            return "ERRORE NELLA DHT GET/PUT: " + e.getMessage();
         }
-        return "";
+        return "ERRORE NELLA PUSH";
     }
 
     public String pull(String _repo_name) {
@@ -144,33 +137,20 @@ public class GitProtocolImpl implements GitProtocol {
             System.out.println("le mie pending commit  "+ pendingCommit);
             if(pendingCommit>0)
             {
-                this.repo.updateRepoWithPending(dhtRepo);
+                this.repo.updateRepoWithPending(dhtRepo, true);
+                pendingSet(0);
             }else{
-                this.repo.updateRepo(dhtRepo);         // possibile errore
+                System.out.println("SONO IN ELSE " );
+                this.repo.updateRepoWithPending(dhtRepo, false);         // possibile errore
             }
-            /*if (!dhtRepo.getCommits().contains(this.repo.getCommits()) && !this.fetch) { // conflict
-                this.fetch = true;
-                return Operationmessage.PULL_CONFLICT;
-            }*/
-            // if you have arrived here, everything is ok
 
-            //Need to save the root directory
-            String rootDirectory = this.repo.getDirectory();
-
-            //se vi è il coflitto magico di sara, qui bisogna sostituire la lista e basta
-                /*for (Commit commit: dhtRepo.getCommits())
-                {
-                    if (!this.repo.getCommits().contains(commit))
-                        this.repo.getCommits().add(commit);
-                }*/
                 this.repo.addCommit(dhtRepo.getCommits());
-               //this.repo.setCommits(dhtRepo.getCommits());
-            //Restablish the root directory
-            this.repo.setDirectory(rootDirectory);
+
             System.out.println("dopo pull mia repo " + this.repo.toString());
         } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
         }
+        System.out.println("la mia repo"  + this.repo.toString());
         return "Operazione di pull avvenuta con successo";
     }
 

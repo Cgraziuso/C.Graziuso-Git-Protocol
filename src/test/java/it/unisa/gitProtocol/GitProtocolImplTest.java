@@ -16,13 +16,13 @@ public class GitProtocolImplTest {
         GitProtocolImpl peer1 = new GitProtocolImpl(0, "127.0.0.1", new MessageListenerImpl(0));
         GitProtocolImpl peer2 = new GitProtocolImpl(1, "127.0.0.1", new MessageListenerImpl(1));
 
-        File dirPeer1 = new File(1+"/");
+        File dirPeer1 = new File(1+"");
         if(dirPeer1.exists())
         {
             FileUtils.deleteDirectory(dirPeer1);
         }
         dirPeer1.mkdir();
-        File dirPeer2 = new File(2+"/");
+        File dirPeer2 = new File(2+"");
         if(dirPeer2.exists())
         {
             FileUtils.deleteDirectory(dirPeer2);
@@ -36,7 +36,7 @@ public class GitProtocolImplTest {
         }
 
         //CREAZIONE FILE PER REPO PEER 1
-        ArrayList<File> files = addfilepeer(new ArrayList<File>(), "testo del primo file", "1", "prova");
+        ArrayList<File> files = addfilepeer(new ArrayList<File>(), "testo del primo file", "1", "prova", dirPeer1);
 
         //ADD FILE, COMMIT E PUSH
         addCommitPush(peer1, files, "commit file 1");
@@ -48,7 +48,7 @@ public class GitProtocolImplTest {
         System.out.println(pull);
 
         //CREAZIONE FILE PER REPO  DA PEER 2
-        files = addfilepeer(new ArrayList<File>(), "testo del secondo file", "2", "prova2");
+        files = addfilepeer(new ArrayList<File>(), "testo del secondo file", "2", "prova2", dirPeer2);
 
         //ADD FILE, COMMIT E PUSH
         addCommitPush(peer2, files, "commit file 2");
@@ -59,14 +59,14 @@ public class GitProtocolImplTest {
         System.out.println(pull);
 
         //CREAZIONE FILE PER REPO PEER 1
-        files = addfilepeer(new ArrayList<File>(), "testo del terzo file", "1", "prova3");
+        files = addfilepeer(new ArrayList<File>(), "testo del terzo file", "1", "prova3", dirPeer1);
 
         //ADD FILE, COMMIT  del peer 1
         addCommit(peer1, files, "commit file 3");
         files.clear();
 
         //CREAZIONE FILE PER REPO PEER 2
-        files = addfilepeer(new ArrayList<File>(), "testo del terzo file file peer 2", "2", "prova3");
+        files = addfilepeer(new ArrayList<File>(), "testo del terzo file file peer 2", "2", "prova3", dirPeer2);
 
         //ADD FILE, COMMIT E PUSH
         addCommitPush(peer2, files, "commit file 3 del peer 2");
@@ -91,8 +91,8 @@ public class GitProtocolImplTest {
     return;
     }
 
-    public static ArrayList<File> addfilepeer(ArrayList<File> files, String data, String id, String name){
-        File file1 = new File(id+"/", name+".txt");
+    public static ArrayList<File> addfilepeer(ArrayList<File> files, String data, String id, String name, File dir){
+        File file1 = new File(dir+"/", name+".txt");
         try{
             FileOutputStream fos = new FileOutputStream(file1);
             fos.write(data.getBytes());

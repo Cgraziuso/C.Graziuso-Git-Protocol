@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8abbd284-f5e0-4018-b368-bd48c66d8192" name="Default Changelist" comment="" />
+    <list default="true" id="8abbd284-f5e0-4018-b368-bd48c66d8192" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/1/prova.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/1/prova2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/1/prova3.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/2/prova.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/2/prova2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/2/prova3.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unisa/gitProtocol/entity/Repository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unisa/gitProtocol/entity/Repository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unisa/gitProtocol/implementation/Example.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unisa/gitProtocol/implementation/Example.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unisa/gitProtocol/implementation/GitProtocolImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unisa/gitProtocol/implementation/GitProtocolImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/unisa/gitProtocol/GitProtocolImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/unisa/gitProtocol/GitProtocolImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/it/unisa/gitProtocol/entity/Repository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/it/unisa/gitProtocol/entity/Repository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/it/unisa/gitProtocol/implementation/Example.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/it/unisa/gitProtocol/implementation/Example.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/it/unisa/gitProtocol/implementation/GitProtocolImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/it/unisa/gitProtocol/implementation/GitProtocolImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/it/unisa/gitProtocol/GitProtocolImplTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/it/unisa/gitProtocol/GitProtocolImplTest.class" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,11 +60,11 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="C:/Program Files/Git/bin/git.exe" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
-    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+    <property name="settings.editor.selected.configurable" value="Docker" />
   </component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
@@ -107,7 +124,7 @@
           <expand>
             <path>
               <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@62909900" type="9fbbdea:ServiceModel$ServiceNode" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@2b219d0d" type="9fbbdea:ServiceModel$ServiceNode" />
             </path>
           </expand>
           <select />

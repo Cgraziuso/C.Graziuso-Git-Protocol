@@ -9,9 +9,8 @@ COPY --from=0 /app/gitCat /app
 RUN mvn package
 
 FROM openjdk:8-jre-alpine
-WORKDIR /app
 ENV MASTERIP=127.0.0.1
 ENV ID=0
-COPY --from=1 /app/target/gitCat-1.0-jar-with-dependencies.jar /app
+COPY --from=1 /app/target/gitCat-1.0-jar-with-dependencies.jar /
 
 CMD /usr/bin/java -jar gitCat-1.0-jar-with-dependencies.jar -m $MASTERIP -id $ID
