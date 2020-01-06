@@ -1,5 +1,0 @@
-testo del terzo file file peer 2
-    MERGE     
-testo del terzo file
-    MERGE     
-testo del terzo file file peer 2

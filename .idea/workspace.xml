@@ -2,21 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8abbd284-f5e0-4018-b368-bd48c66d8192" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/test/java/it/unisa/gitProtocol/GitProtocolImplTestJUnit.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/1/prova.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/1/prova2.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/1/prova3.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/1/prova3.txt" beforeDir="false" afterPath="$PROJECT_DIR$/1/prova3.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/2/prova.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/2/prova2.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/2/prova3.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/it/unisa/gitProtocol/entity/Repository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unisa/gitProtocol/entity/Repository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/it/unisa/gitProtocol/implementation/Example.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unisa/gitProtocol/implementation/Example.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/it/unisa/gitProtocol/implementation/GitProtocolImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unisa/gitProtocol/implementation/GitProtocolImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unisa/gitProtocol/implementation/MessageListenerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unisa/gitProtocol/implementation/MessageListenerImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unisa/gitProtocol/implementation/SupporterMethod.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unisa/gitProtocol/implementation/SupporterMethodImpl.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/it/unisa/gitProtocol/GitProtocolImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/unisa/gitProtocol/GitProtocolImplTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/it/unisa/gitProtocol/entity/Repository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/it/unisa/gitProtocol/entity/Repository.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/it/unisa/gitProtocol/implementation/Example.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/it/unisa/gitProtocol/implementation/Example.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/it/unisa/gitProtocol/implementation/GitProtocolImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/it/unisa/gitProtocol/implementation/GitProtocolImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/it/unisa/gitProtocol/implementation/MessageListenerImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/it/unisa/gitProtocol/implementation/MessageListenerImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/it/unisa/gitProtocol/implementation/SupporterMethod.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/it/unisa/gitProtocol/implementation/SupporterMethodImpl.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/test-classes/it/unisa/gitProtocol/GitProtocolImplTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/it/unisa/gitProtocol/GitProtocolImplTest.class" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -34,6 +40,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Enum" />
         <option value="Class" />
       </list>
     </option>
@@ -64,7 +71,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
-    <property name="settings.editor.selected.configurable" value="Docker" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
@@ -83,22 +90,8 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.GitProtocolImplTest">
-    <configuration name="Example" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="it.unisa.gitProtocol.implementation.Example" />
-      <module name="gitCat" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="it.unisa.gitProtocol.implementation.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="GitProtocolImplTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="it.unisa.gitProtocol.GitProtocolImplTest" />
+  <component name="RunManager" selected="JUnit.GitProtocolImplTestJUnit">
+    <configuration name="GitProtocolImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="gitCat" />
       <extension name="coverage">
         <pattern>
@@ -106,14 +99,83 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <option name="PACKAGE_NAME" value="it.unisa.gitProtocol" />
+      <option name="MAIN_CLASS_NAME" value="it.unisa.gitProtocol.GitProtocolImplTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GitProtocolImplTestJUnit" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="gitCat" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.unisa.gitProtocol.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="it.unisa.gitProtocol" />
+      <option name="MAIN_CLASS_NAME" value="it.unisa.gitProtocol.GitProtocolImplTestJUnit" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GitProtocolImplTestJUnit.getListFiles" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="gitCat" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.unisa.gitProtocol.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="it.unisa.gitProtocol" />
+      <option name="MAIN_CLASS_NAME" value="it.unisa.gitProtocol.GitProtocolImplTestJUnit" />
+      <option name="METHOD_NAME" value="getListFiles" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GitProtocolImplTestJUnit.pullSuccess" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="gitCat" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.unisa.gitProtocol.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="it.unisa.gitProtocol" />
+      <option name="MAIN_CLASS_NAME" value="it.unisa.gitProtocol.GitProtocolImplTestJUnit" />
+      <option name="METHOD_NAME" value="pullSuccess" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GitProtocolImplTest.pullQuattroPeer" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="gitCat" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.unisa.gitProtocol.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="it.unisa.gitProtocol" />
+      <option name="MAIN_CLASS_NAME" value="it.unisa.gitProtocol.GitProtocolImplTest" />
+      <option name="METHOD_NAME" value="pullQuattroPeer" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.GitProtocolImplTest" />
-        <item itemvalue="Application.Example" />
+        <item itemvalue="JUnit.GitProtocolImplTestJUnit" />
+        <item itemvalue="JUnit.GitProtocolImplTest" />
+        <item itemvalue="JUnit.GitProtocolImplTestJUnit.getListFiles" />
+        <item itemvalue="JUnit.GitProtocolImplTestJUnit.pullSuccess" />
+        <item itemvalue="JUnit.GitProtocolImplTest.pullQuattroPeer" />
       </list>
     </recent_temporary>
   </component>
@@ -124,7 +186,12 @@
           <expand>
             <path>
               <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@2b219d0d" type="9fbbdea:ServiceModel$ServiceNode" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@6c80d89c" type="9fbbdea:ServiceModel$ServiceNode" />
+            </path>
+            <path>
+              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@6c80d89c" type="9fbbdea:ServiceModel$ServiceNode" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@21f05c39" type="9fbbdea:ServiceModel$ServiceNode" />
             </path>
           </expand>
           <select />

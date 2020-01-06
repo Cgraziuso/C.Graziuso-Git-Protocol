@@ -1,5 +1,7 @@
 package it.unisa.gitProtocol.entity;
 
+import net.tomp2p.dht.FutureGet;
+import net.tomp2p.peers.PeerAddress;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
@@ -9,24 +11,30 @@ import java.util.*;
 import com.google.common.io.CharStreams;
 
 import java.util.Date;
+import java.util.concurrent.Future;
 
 
 public class Repository implements Serializable{
 
-    private final Map<File, String> filemap =  new HashMap<File,  String>();;
 
-    private final ArrayList<File> files = new ArrayList<File>();        // list of files
-    private ArrayList<Commit> commits;    // list of commits
+    private final Map<File, String> filemap =  new HashMap<File,  String>();;    //haashmap per mappare i file presente ella repository in base al loro contenuto.
+    private final ArrayList<File> files = new ArrayList<File>();        // lista dei file presenti nella repository
+    private ArrayList<Commit> commits;                               // lista di commit
     public static final String FIRST_COMMIT_MESSAGE = "First commit";
-    private String repoName;                    // name of the repository
-    private String directory;               // root directory of the repository
+    private String repoName;                                         // nome della repository
+    private String directory;                                        // root directory della repository
+    private ArrayList<PeerAddress> peerAddress = new ArrayList<PeerAddress>(); // lista dei peer address che hanno modificato la repository
 
 
-    public Repository(String directory, String repoName) throws IOException{
+    //costruttori
+    public Repository(String directory, String repoName, PeerAddress ip) throws IOException
+    {
         this.directory = directory;
         this.repoName = repoName;
+        peerAddress.add(ip);  // fondatore della repository
         commits = new ArrayList<Commit>();
         this.commits.add(new Commit("Prima commit:Creazione Repository", this.repoName));
+
     }
 
     public Repository(){
@@ -69,15 +77,21 @@ public class Repository implements Serializable{
         this.directory= directory;
     }
 
+    public ArrayList<PeerAddress> getPeerAddress() {
+        return peerAddress;
+    }
+
+    public void setPeerAddress(ArrayList<PeerAddress> peerAddress) {
+        this.peerAddress = peerAddress;
+    }
+
     @Override
     public String toString() {
-        return "Repository{" +
-                "filemap=" + filemap +
-                ", files=" + files +
-                ", commits=" + commits +
-                ", repoName='" + repoName + '\'' +
-                ", directory='" + directory + '\'' +
-                '}';
+        return "Repository{\n" + "repoName: " + repoName + "\n"+
+                "filemap=" + filemap +"\n"+
+                ", files=" + files +"\n"+
+                ", commits=" + commits +"\n"+
+                ", directory='" + directory + '\'' +'}'+"\n";
     }
 
     @Override
@@ -97,8 +111,9 @@ public class Repository implements Serializable{
         return Objects.hash(filemap, files, commits, repoName);
     }
 
+    //metodo utile all'aggiunta di dile nella repository. Ogni file ricevuto vuene mappato dell'hashmap in base al suo contenuto
     public boolean addFiles(List<File> listFiles) throws IOException {
-        if (listFiles.isEmpty()) return false;
+        if (listFiles.isEmpty()) return false;                         //ricevuto una lista vuota
         for ( File f : listFiles){
             if (this.files.contains(f))
             {
@@ -117,13 +132,12 @@ public class Repository implements Serializable{
                  }catch (Exception e){
                      System.out.println(e);
                  }
-
             }
-
         }
         return true;
     }
 
+    //metodo utile all'aggiunta di un messaggio di commit alla lista pre-esistente
     public boolean addCommit(String message)
     {
         try{
@@ -135,7 +149,7 @@ public class Repository implements Serializable{
         return true;
     }
 
-    //METODO PER IL MERGE DEI COMMIT TRA REPO LOCALE E QUELLA DELLA DHT
+    //altra implementazione del metodo addCommit che permette il merge tra le commit della repository locale e quella presente nella dht
     public boolean addCommit(ArrayList<Commit> commitsDht )
     {
         try {
@@ -179,51 +193,45 @@ public class Repository implements Serializable{
 
         return true;
     }
-    public boolean updateRepoWithPending(Repository dhtRepo, boolean merge) throws IOException {
 
-        System.out.println("SONO NEL METODO");
-        for(Map.Entry<File, String> entry: dhtRepo.getFilemap().entrySet()) {
+    //metodo di aggiornamento della repository della DHT in grado di gestire anhe eventuali merge tra file dovute a commit pendenti
+    public boolean updateRepoWithPending(Repository dhtRepo, boolean merge) throws IOException {
+        for(Map.Entry<File, String> entry: dhtRepo.getFilemap().entrySet()) { //per ogni elemento dell'hashmap della repository nella dht
             File localFile = null;
-            boolean find = false;
+            boolean find = false;                                               //flag indica se il file è stato trovato
             for (Map.Entry<File, String> entryLocal : this.getFilemap().entrySet()) {
-                if (entryLocal.getKey().getName().equals(entry.getKey().getName()) && !entryLocal.getValue().equals(entry.getValue())) {
+                if (entryLocal.getKey().getName().equals(entry.getKey().getName()) && !entryLocal.getValue().equals(entry.getValue())) { //i file hanno lo stesso nome ma contenuto diverso
                     OutputStream os = null;
                     //merge
-                    System.out.println("dovrei fare il merge del file " + entry.getKey().toString());
                     String text = "\n    MERGE     \n";
-                    for (File f : this.files) {
-                        System.out.println("nome f " + entry.getKey().getName() + "  files f " + f.getName());
-                        if (f.getName().equals(entry.getKey().getName())) {
-                            if (merge==true){
-                                os = new FileOutputStream(f,true);
-                                os.write(text.getBytes());
+                    for (File f : this.files) {                                 //individuo il file locale di cui fare il merge
+                        if (f.getName().equals(entry.getKey().getName())) {     // se ha il nome del file in questione
+                            if (merge==true){                                   //se devo effettuare il merge
+                                os = new FileOutputStream(f,true);      //creo outputStream
+                                os.write(text.getBytes());                      //accodo il contenuto del file della dht
                                 os.write(entry.getValue().getBytes());
 
                             }else{
-                                os = new FileOutputStream(f);
+                                os = new FileOutputStream(f);                   //se non devo fare il merge, sostituisco il contenuto del file con quello nella dht
                                 os.write(entry.getValue().getBytes());
                             }
                             os.flush();
-                            os.close();
-
-                            entryLocal.setValue(getTextFile(f));
-                            find = true;
+                            os.close();                                         //flush e chiusura dell'output stream
+                            entryLocal.setValue(getTextFile(f));                //aggiorno hashmap con il nuovo contenuto
+                            find = true;                                        //flag che attesta che il file è stato già trovato
                             break;
                         }
                     }
-                }else if(entryLocal.getKey().getName().equals(entry.getKey().getName()) && entryLocal.getValue().equals(entry.getValue()))
+                }else if(entryLocal.getKey().getName().equals(entry.getKey().getName()) && entryLocal.getValue().equals(entry.getValue())) //i file hanno lo stesso nome e lo stesso contenuto
                 {
-                    find= true;
-                    System.out.println("trovato cazzo");
+                    find= true;                                                //flag che attesta che il file è stato già trovato
                 }
 
 
             }
-            if (find == false) {
-                try {
-                    System.out.println("ricreo file"  + entry.getKey().getName() );
+            if (find == false) {                                               //flag a false indica che il file non è presente nella repository locale
+                try { //creazione file con lo stesso contenuto
                     OutputStream os = null;
-                    //System.out.println("directory nella UPDATE" + getDirectory());
                     localFile = new File(getDirectory() + "/" + entry.getKey().getName());
                     os = new FileOutputStream(localFile);
                     String text = "";
@@ -234,7 +242,7 @@ public class Repository implements Serializable{
                     e.printStackTrace();
                     return false;
                 }
-                try {
+                try {//inserimento nell'hashmap della repository locale
                     this.filemap.put(localFile, entry.getValue());
                     if (!this.files.contains(localFile))
                         this.files.add(localFile);
@@ -248,6 +256,7 @@ public class Repository implements Serializable{
         return true;
     }
 
+    //metodo che permette la lettura del testo presente in un file
     public String getTextFile(File f) throws FileNotFoundException {
         InputStream is = new FileInputStream(f);
         String text="";
@@ -259,6 +268,8 @@ public class Repository implements Serializable{
         return text;
 
     }
+
+
 
 
 

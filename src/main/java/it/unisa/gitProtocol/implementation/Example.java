@@ -25,149 +25,168 @@ public class Example {
 
         Example example = new Example();
         final CmdLineParser parser = new CmdLineParser(example);
-        boolean create = false;
-        int pendingCommit=0;
-
+        boolean create = false;                                                     //flag per verificare la creazione della repository
+        int pendingCommit=0;                                                        //intero utile per verificare la presenza di commit pendenti
+        String nome = "";
+        String commit = "";
+        String check = "";
         try
         {
             parser.parseArgument(args);
             TextIO textIO = TextIoFactory.getTextIO();
             TextTerminal terminal = textIO.getTextTerminal();
-            MessageListener ms = new MessageListenerImpl(id);
 
-            GitProtocolImpl peer = new GitProtocolImpl(id, master, ms);
-
-            System.out.println("id ed ip: " +  id +  master);
+            MessageListener ms = new MessageListenerImpl(id);                       //Message Listner per lo scambio di messaggi
+            GitProtocolImpl peer = new GitProtocolImpl(id, master, ms);             //Istanza di gitProtocolImpl per la gestione della repository
 
             //CREAZIONE PATH
             File dir = new File(id+"");
             if(dir.exists())
                 FileUtils.deleteDirectory(dir);
             dir.mkdir();
+
             //INIZIO COMUNICAZIONE
             terminal.printf("\nStaring peer id: %d on master node: %s\n", id, master);
             while(true) {
                 printMenu(terminal);
-
                 int option = textIO.newIntInputReader()
-                        .withMaxVal(4)
+                        .withMaxVal(6)
                         .withMinVal(1)
                         .read("Option");
                 switch (option) {
                     case 1:
-                        terminal.printf("\nENTER REPOSITORY NAME\n");
-                        String name = textIO.newStringInputReader()
+                        terminal.printf("\nINSERIRE NOME DELLA REPOSITORY\n");
+                        nome = textIO.newStringInputReader()
                                 .withDefaultValue("default-name repo")
                                 .read("Name:");
-                        //terminal.printf("\nENTER DIRECTORY\n");
-                        //CREAZIONE PATH
-                        /*String dirName="";
-                        dirName = textIO.newStringInputReader()
-                                .withDefaultValue("/repo")
-                                .read("Name:");
-                        File dir = new File("/app/"+dirName );
-                        dir.mkdir();*/
-                        if(peer.createRepository(name, dir ))
+                        if(peer.createRepository(nome, dir ))
                         {
-                            terminal.printf("\nREPOSITORY %s SUCCESSFULLY CREATED\n",name);
+                            terminal.printf(Messaggi.REPOCREATA.getMessage(),nome);
                             create = true;
                         }else
-                            terminal.printf("\nERROR IN REPOSITORY CREATION\n");
+                            terminal.printf(Messaggi.ERRORECREAZIONEREPO.getMessage());
                         break;
                     case 2:
-                        terminal.printf("\nENTER REPOSITORY NAME\n");
-                        String rname = textIO.newStringInputReader()
+                        terminal.printf("\nINSERIRE NOME DELLA REPOSITORY\n");
+                        nome = textIO.newStringInputReader()
                                 .withDefaultValue("default-name repo")
                                 .read("Name:");
                         List<File> fs = new ArrayList<File>();
                         fs= createFile((ArrayList<File>) fs,textIO, terminal, dir);
-                        if(peer.addFilesToRepository(rname, fs))
+                        if(peer.addFilesToRepository(nome, fs))
                         {
-                            terminal.printf("\n SUCCESSFULLY ADDED FILES\n");
-                            terminal.printf("\nENTER COMMIT MESSAGE\n");
-                            String commit = textIO.newStringInputReader()
+                            terminal.printf("\n FILE AGGIUNTI CON SUCCESSO\n");
+                            terminal.printf("\nINSERIRE IL MESSAGGIO DI COMMIT\n");
+                            commit = textIO.newStringInputReader()
                                 .withDefaultValue("default-commit")
                                 .read("commit:");
-                            if(peer.commit(rname, commit))
+                            if(peer.commit(nome, commit))
                             {
-                                terminal.printf("\n DO YOU WANT TO PUSH? \n");
-                                String check = textIO.newStringInputReader()
+                                terminal.printf("\n VUOI EFFETTUARE UNA PUSH? \n");
+                                 check = textIO.newStringInputReader()
                                         .withDefaultValue("1")
                                         .read("(1= SI/ENTER, 2= NO):");
                                 if(check.equals("1"))
                                 {
-                                    terminal.printf("\n TRYING PUSH \n");
-                                    terminal.printf("\n Message push:%s \n",peer.push(rname));
+                                    terminal.printf("\n MESSAGGIO PUSH:%s \n",peer.push(nome));
                                 }else{
                                     pendingCommit++;
                                     peer.pendingSet(pendingCommit);
-                                    terminal.printf("\n REMEMBER!, YOU HAVE %d PENDING COMMIT \n", pendingCommit);
+                                    terminal.printf("\nHAI %d COMMIT PENDENTE/I \n", pendingCommit);
                                 }
                             }else
-                                terminal.printf("\nERROR IN COMMIT CREATION\n");
+                                terminal.printf(Messaggi.ERROREMESSAGGIOCOMMIT.getMessage());
                         }else
-                            terminal.printf("\nERROR IN ADD FILE TO REPOSITORY\n");
+                            terminal.printf(Messaggi.ERROREAGGIUNTAFILE.getMessage());
                         break;
                     case 3:
-                        terminal.printf("\nENTER REPOSITORY NAME\n");
-                        String rname2 = textIO.newStringInputReader()
+                        terminal.printf("\nINSERIRE NOME DELLA REPOSITORY\n");
+                        nome = textIO.newStringInputReader()
                                 .withDefaultValue("default-name repo")
                                 .read("Name:");
                         if(create==false)
-                            if(peer.createInitialRepository(rname2, dir) )
+                            if(peer.createInitialRepository(nome, dir) )
                                 create=true;
 
-                        terminal.printf("\n%s\n",peer.pull(rname2));
+                        terminal.printf("\n%s\n",peer.pull(nome));
                         break;
                     case 4:
-                        terminal.printf("\nENTER REPOSITORY NAME\n");
-                        String rname3 = textIO.newStringInputReader()
+                        terminal.printf("\nINSERIRE NOME DELLA REPOSITORY\n");
+                        nome = textIO.newStringInputReader()
                                 .withDefaultValue("default-name repo")
                                 .read("Name:");
-                        terminal.printf("\n TRYING PUSH \n");
-                        String pushCeck=peer.push(rname3);
-                        terminal.printf("\n Message push:%s \n",pushCeck);
-                        if(pushCeck.equals("Push avvenuta con successo"))
-                            pendingCommit=0;
+                        String pushCeck=peer.push(nome);
+                        terminal.printf("\n MESSAGGIO PUSH: %s \n",pushCeck);
+                        if(pushCeck.equals(Messaggi.SUCCESSOPUSH.getMessage()))
+                            pendingCommit=0;//-------------------------------
                         break;
                     case 5:
-                        terminal.printf("\nARE YOU SURE TO LEAVE THE NETWORK?\n");
+                        terminal.printf("\nINSERIRE NOME DELLA REPOSITORY\n");
+                        nome = textIO.newStringInputReader()
+                                .withDefaultValue("default-name repo")
+                                .read("Name:");
+                        String list = (peer.getListFiles(nome));
+                        if(list.equals(Messaggi.NESSUNAREPOLOCALE.getMessage()) || list.equals(Messaggi.NESSUNFILENELLAREPO.getMessage()) || list.equals(Messaggi.NONESISTEREPOLOCALE.getMessage())) {
+                            terminal.printf("\n" + list + "\n");
+                            break;
+                        }else{
+                            String lettura ="";
+                           do{
+                                terminal.printf("\n" + list + "\n");
+                                terminal.printf("\nVUOI LEGGERE IL CONTENUTO DI UN FILE?\n");
+                                String option2 = textIO.newStringInputReader()
+                                        .withDefaultValue("1")
+                                        .read("1/si 2/no:");
+                                if (option2.equals("2") || option2.equals("no")) {
+                                    break;
+                                } else {
+                                    terminal.printf("\n" + list + "\n");
+                                    terminal.printf("\nINSERIRE IL NOME DEL FILE CHE VUOI LEGGERE (ANCHE L'ESTENSIONE)\n");
+                                    String nameFile = textIO.newStringInputReader()
+                                            .read("name:");
+                                    terminal.printf("\n" + peer.getContentFile(nameFile) + "\n");
+                                    terminal.printf("\nVUOI LEGGERE IL CONTENUTO DI UN ALTRO FILE?\n");
+                                    lettura = textIO.newStringInputReader()
+                                            .withDefaultValue("1")
+                                            .read("1/si 2/no:");
+                                }
+                            }while (lettura.equals("1") || lettura.equals("si"));
+                                break;
+                        }
+                    case 6:
+                        terminal.printf("\nSEI SICURO DI VOLER LASCIARE LA NETWORK?\n");
                         boolean exit = textIO.newBooleanInputReader().withDefaultValue(false).read("exit?");
                         if(exit) {
+                            //fare push/pull per eliminarsi dalla rete peermaddress. fare la pull  e dopo push senza di me ahahahahahahahha marzullo è gaio
+                            peer.leaveNetwork();
                             System.exit(0);
                         }
                         break;
-
                     default:
                         break;
                 }
             }
-
-
-
         }
         catch (CmdLineException clEx)
         {
             System.err.println("ERROR: Unable to parse command-line options: " + clEx);
         }
-
-
     }
 
     public static ArrayList<File> createFile(ArrayList<File> files, TextIO textIO,  TextTerminal terminal, File dir) throws IOException {
 
 
         terminal.printf("\nQUANTI FILE VUOI CREARE?\n");
-        String nFilesS = textIO.newStringInputReader()
-                .withDefaultValue("1")
+        int nFiles = textIO.newIntInputReader()
+                .withDefaultValue(1)
                 .read("Number:");
-        for(int i=0; i<Integer.parseInt(nFilesS); i++)
+        for(int i=0; i<nFiles; i++)
         {
-            terminal.printf("\nENTER FILE NAME NUMBER(%d)\n", i+1);
-            String fname = textIO.newStringInputReader()
+            terminal.printf("\nINSERIRE IL NOME DEL FILE NUMERO %d\n", i+1);
+            String name = textIO.newStringInputReader()
                     .withDefaultValue("prova")
                     .read("Name:");
-            File f = new File(  dir, fname+".txt");
+            File f = new File(  dir, name +".txt");
 
             terminal.printf("\nENTER TEXT OF FILE\n");
             String data = textIO.newStringInputReader()
@@ -182,7 +201,7 @@ public class Example {
                 BufferedReader br = new BufferedReader(new FileReader(f));
                 String st;
                 while ((st = br.readLine()) != null){
-                    System.out.println("file========== "+ st);
+                    System.out.println("file "+ st);
                 }
             }catch (Exception e){
                 e.printStackTrace();
@@ -193,12 +212,12 @@ public class Example {
     }
 
     public static void printMenu(TextTerminal terminal) {
-        terminal.printf("\n1 - CREATE REPOSITORY\n");
-        //terminal.printf("\n2 - SUBSCRIBE TO REPOSITORY\n");
-        terminal.printf("\n2 - ADD FILES TO REPOSITORY\n");
+        terminal.printf("\n1 - CREARE UNA REPOSITORY\n");
+        terminal.printf("\n2 - AGGIUNGERE FILE ALLA REPOSITORY\n");
         terminal.printf("\n3 - PULL\n");
-        terminal.printf("\n5 - PUSH\n");
-        terminal.printf("\n4 - EXIT\n");
+        terminal.printf("\n4 - PUSH\n");
+        terminal.printf("\n5 - ESPLORA LA REPOSITORY\n");
+        terminal.printf("\n6 - EXIT\n");
 
     }
 
