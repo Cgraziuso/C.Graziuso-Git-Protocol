@@ -26,20 +26,17 @@ public class GitProtocolImplTest {
     private static final String TESTO1 = "Testo 1";
     private static final String TESTO2 = "Testo 2";
     private static final String TESTO3 = "Testo 3";
-    private static final String TESTO4 = "Testo 4";
 
     private GitProtocolImpl master;
     private GitProtocolImpl peer1;
     private GitProtocolImpl peer2;
-    //private GitProtocolImpl peer3;
-    private File PathDir[];
+    private File pathDir[];
 
     public GitProtocolImplTest() throws Exception {
         master = new GitProtocolImpl(0, "127.0.0.1", new MessageListenerImpl(0));
         peer1 = new GitProtocolImpl(1, "127.0.0.1", new MessageListenerImpl(1));
         peer2 = new GitProtocolImpl(2, "127.0.0.1", new MessageListenerImpl(2));
-        //peer3= new GitProtocolImpl(3, "127.0.0.1", new MessageListenerImpl(3));
-        PathDir = new File[4];
+        pathDir = new File[4];
 
     }
 
@@ -55,7 +52,7 @@ public class GitProtocolImplTest {
             }
 
             dir.mkdirs();
-            PathDir[i]=dir;
+            pathDir[i]=dir;
         }
     }
 
@@ -65,7 +62,7 @@ public class GitProtocolImplTest {
      */
     @Test
     public void createRepository() {
-        assertTrue(master.createRepository(_REPO_NAME, PathDir[0]));
+        assertTrue(master.createRepository(_REPO_NAME, pathDir[0]));
     }
 
     /**
@@ -74,8 +71,8 @@ public class GitProtocolImplTest {
      */
     @Test
     public void createSecondRepository() {
-        master.createRepository(_REPO_NAME, PathDir[0]);
-        assertFalse(master.createRepository(_REPO_NAME, PathDir[0]));
+        master.createRepository(_REPO_NAME, pathDir[0]);
+        assertFalse(master.createRepository(_REPO_NAME, pathDir[0]));
         System.out.println("esiste già una repository");
     }
 
@@ -85,12 +82,12 @@ public class GitProtocolImplTest {
      */
     @Test
     public void addFilesToRepository() throws IOException {
-        master.createRepository(_REPO_NAME, PathDir[0]);
+        master.createRepository(_REPO_NAME, pathDir[0]);
 
         List<File> files = new ArrayList<>();
         for (int i=0; i<2; i++) {
             String name = "file"+(i+1);
-            File f = new File(PathDir[0], name + ".txt");
+            File f = new File(pathDir[0], name + ".txt");
             FileUtils.writeLines(f, Collections.singleton(TESTO1));
             files.add(f);
         }
@@ -106,12 +103,12 @@ public class GitProtocolImplTest {
      */
     @Test
     public void addFilesToRepositoryRepoErrata() throws IOException {
-        master.createRepository(_REPO_NAME, PathDir[0]);
+        master.createRepository(_REPO_NAME, pathDir[0]);
 
         List<File> files = new ArrayList<>();
         for (int i=0; i<2; i++) {
             String name = "file"+(i+1);
-            File f = new File(PathDir[0], name + ".txt");
+            File f = new File(pathDir[0], name + ".txt");
             FileUtils.writeLines(f, Collections.singleton(TESTO1));
             files.add(f);
         }
@@ -131,7 +128,7 @@ public class GitProtocolImplTest {
         List<File> files = new ArrayList<>();
         for (int i=0; i<2; i++) {
             String name = "file"+(i+1);
-            File f = new File(PathDir[0], name + ".txt");
+            File f = new File(pathDir[0], name + ".txt");
             FileUtils.writeLines(f, Collections.singleton(TESTO1));
             files.add(f);
         }
@@ -147,11 +144,11 @@ public class GitProtocolImplTest {
      */
     @Test
     public void commit() throws IOException {
-        master.createRepository(_REPO_NAME, PathDir[0]);
+        master.createRepository(_REPO_NAME, pathDir[0]);
         List<File> files = new ArrayList<>();
         for (int i=0; i<2; i++) {
             String name = "file"+(i+1);
-            File f = new File(PathDir[0], name + ".txt");
+            File f = new File(pathDir[0], name + ".txt");
             FileUtils.writeLines(f, Collections.singleton(TESTO1));
             files.add(f);
         }
@@ -169,11 +166,11 @@ public class GitProtocolImplTest {
      */
     @Test
     public void commitRepoSbagliata() throws IOException {
-        master.createRepository(_REPO_NAME, PathDir[0]);
+        master.createRepository(_REPO_NAME, pathDir[0]);
         List<File> files = new ArrayList<>();
         for (int i=0; i<2; i++) {
             String name = "file"+(i+1);
-            File f = new File(PathDir[0], name + ".txt");
+            File f = new File(pathDir[0], name + ".txt");
             FileUtils.writeLines(f, Collections.singleton(TESTO1));
             files.add(f);
         }
@@ -190,12 +187,12 @@ public class GitProtocolImplTest {
 
     @Test
     public void pushQuattroPeer() throws IOException {
-        master.createRepository(_REPO_NAME, PathDir[0]);
+        master.createRepository(_REPO_NAME, pathDir[0]);
 
         List<File> files = new ArrayList<>();
         for (int i=0; i<2; i++) {
             String name = "file"+(i+1);
-            File f = new File(PathDir[0], name + ".txt");
+            File f = new File(pathDir[0], name + ".txt");
             FileUtils.writeLines(f, Collections.singleton(TESTO1));
             files.add(f);
         }
@@ -204,14 +201,14 @@ public class GitProtocolImplTest {
         master.commit(_REPO_NAME, COMMIT_MESSAGE);
         assertEquals(Messaggi.SUCCESSOPUSH.getMessage(), master.push(_REPO_NAME));
 
-        peer1.createRepository(_REPO_NAME, PathDir[1]);
+        peer1.createRepository(_REPO_NAME, pathDir[1]);
         System.out.println("peer 1 ha fatto la pull della seguente repository");
         peer1.pull(_REPO_NAME);
 
         files.clear();
         for (int i=2; i<4; i++) {
             String name = "file"+(i+1);
-            File f = new File(PathDir[1], name + ".txt");
+            File f = new File(pathDir[1], name + ".txt");
             FileUtils.writeLines(f, Collections.singleton(TESTO2));
             files.add(f);
         }
@@ -220,14 +217,14 @@ public class GitProtocolImplTest {
         peer1.commit(_REPO_NAME, COMMIT_MESSAGE);
         assertEquals(Messaggi.SUCCESSOPUSH.getMessage(), peer1.push(_REPO_NAME));
 
-        peer2.createRepository(_REPO_NAME, PathDir[2]);
+        peer2.createRepository(_REPO_NAME, pathDir[2]);
         System.out.println("peer 2 ha fatto la pull della seguente repository");
         peer2.pull(_REPO_NAME);
 
         files.clear();
         for (int i=4; i<6; i++) {
             String name = "file"+(i+1);
-            File f = new File(PathDir[2], name + ".txt");
+            File f = new File(pathDir[2], name + ".txt");
             FileUtils.writeLines(f, Collections.singleton(TESTO3));
             files.add(f);
         }
@@ -247,12 +244,12 @@ public class GitProtocolImplTest {
      */
     @Test
     public void ConflittoPush() throws IOException {
-        master.createRepository(_REPO_NAME, PathDir[0]);
+        master.createRepository(_REPO_NAME, pathDir[0]);
 
         List<File> files = new ArrayList<>();
         for (int i=0; i<2; i++) {
             String name = "file"+(i+1);
-            File f = new File(PathDir[0], name + ".txt");
+            File f = new File(pathDir[0], name + ".txt");
             FileUtils.writeLines(f, Collections.singleton(TESTO1));
             files.add(f);
         }
@@ -261,12 +258,12 @@ public class GitProtocolImplTest {
         master.commit(_REPO_NAME, COMMIT_MESSAGE);
         master.push(_REPO_NAME);
 
-        peer1.createRepository(_REPO_NAME, PathDir[1]);
+        peer1.createRepository(_REPO_NAME, pathDir[1]);
 
         files.clear();
         for (int i=0; i<2; i++) {
             String name = "file"+(i+1);
-            File f = new File(PathDir[1], name + ".txt");
+            File f = new File(pathDir[1], name + ".txt");
             FileUtils.writeLines(f, Collections.singleton(TESTO1));
             files.add(f);
         }
@@ -299,7 +296,7 @@ public class GitProtocolImplTest {
      */
     @Test
     public void pullRepositoryInesistente() throws IOException {
-        master.createRepository(_REPO_NAME, PathDir[0]);
+        master.createRepository(_REPO_NAME, pathDir[0]);
         assertEquals(Messaggi.NONESISTEREPO.getMessage(), master.pull(_REPO_NAME));
         System.out.println(Messaggi.NONESISTEREPO.getMessage());
     }
@@ -310,13 +307,12 @@ public class GitProtocolImplTest {
      */
     @Test
     public void pullRepositoryAggiornata() throws IOException {
-        master.createRepository(_REPO_NAME, PathDir[0]);
+        master.createRepository(_REPO_NAME, pathDir[0]);
         List<File> files = new ArrayList<>();
         for(int i=0; i<3; i++)
         {
-            String nomeFile = "file"+i;
-            String nomeTesto = "TESTO";
-            File file = new File(PathDir[0], nomeFile+".txt");
+            String nomeFile = "file"+(i+1);
+            File file = new File(pathDir[0], nomeFile+".txt");
             FileUtils.writeLines(file, Collections.singleton(TESTO1));
             files.add(file);
 
@@ -336,7 +332,7 @@ public class GitProtocolImplTest {
     @Test
     public void createInitialRepository(){
 
-        assertTrue(peer1.createInitialRepository(_REPO_NAME, PathDir[1]));
+        assertTrue(peer1.createInitialRepository(_REPO_NAME, pathDir[1]));
         System.out.println("repository iniziale creata");
 
     }
@@ -348,8 +344,8 @@ public class GitProtocolImplTest {
     @Test
     public void createSecondInitialRepository(){
 
-        peer1.createInitialRepository(_REPO_NAME, PathDir[1]);
-        assertFalse(peer1.createInitialRepository(_REPO_NAME, PathDir[1]));
+        peer1.createInitialRepository(_REPO_NAME, pathDir[1]);
+        assertFalse(peer1.createInitialRepository(_REPO_NAME, pathDir[1]));
         System.out.println("repository duplicata");
 
 

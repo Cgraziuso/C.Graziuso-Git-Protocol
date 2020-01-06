@@ -166,6 +166,7 @@ public class Repository implements Serializable{
     }
 
 
+
     public boolean updateRepo(Repository dhtRepo) throws IOException {
         for(Map.Entry<File, String> entry: dhtRepo.getFilemap().entrySet()) {
             OutputStream os = null;
@@ -194,7 +195,7 @@ public class Repository implements Serializable{
         return true;
     }
 
-    //metodo di aggiornamento della repository della DHT in grado di gestire anhe eventuali merge tra file dovute a commit pendenti
+    //metodo di aggiornamento della repository della DHT in grado di gestire anche eventuali merge tra file dovute a commit pendenti
     public boolean updateRepoWithPending(Repository dhtRepo, boolean merge) throws IOException {
         for(Map.Entry<File, String> entry: dhtRepo.getFilemap().entrySet()) { //per ogni elemento dell'hashmap della repository nella dht
             File localFile = null;
