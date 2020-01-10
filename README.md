@@ -161,6 +161,32 @@ public boolean commit(String _repo_name, String _message) {
 # Testing
  I casi di test analizzati sono i seguenti:
 
+# Dockerfile
+FROM alpine/git as clone
+ARG url
+WORKDIR /app
+RUN git clone ${url}
+
+FROM maven:3.5-jdk-8-alpine as builder
+ARG project
+WORKDIR /app
+COPY --from=clone /app/${project} /app
+RUN mvn package
+
+FROM openjdk:8-jre-alpine
+ARG artifactid
+ARG version
+ENV artifact ${artifactid}-${version}.jar
+WORKDIR /app
+ENV MASTERIP=127.0.0.1
+ENV ID=0
+COPY --from=builder /app/target/${artifact} /app
+
+CMD /usr/bin/java -jar ${artifact} -m $MASTERIP -id $ID
+
+Per una migliore leggibilità del Dockerfile sono state inserite delle etichette per meglio idividuare le varie immagini utilizzate. 
+La prima immagine alpine/git è stata etichettata con "clone" mentre maven:3.5-jdk-8-alpine con "builder".
+Per adattare il Dockerfile a tutti i progetti dello stesso tipo sono stati inseriti degli argomenti. In Docker, i parametri possono essere passati usando le opzioni ENV o ARG. Entrambi sono impostati usando l'opzione --build-arg sulla riga di comando. Gli argomenti url, project, artifactid e version che sono rispettivamente la url del progetto Git-hub, il nome di tale progetto, l'artifactid presente nel pom.xml ed infine la versione del package. Tali argomenti passati per linea di comando durante la build permetteranno la creazione dell'immagine del progetto sviluppato.
 
 
 # Come Buildare Git Protocol
@@ -168,7 +194,7 @@ public boolean commit(String _repo_name, String _message) {
 ### In un Container Docker
 E' necessario effettuare la build del progetto tramite docker al fine di creare un container. Nella cartella dove è presente il Dockerfile aprire il terminale e digitare il seguente comando.
 ```
-docker build --no-cache -t gitcat .
+sudo docker build --build-arg url=https://github.com/Cgraziuso/C.Graziuso-Git-Protocol.git --build-arg project=C.Graziuso-Git-Protocol --build-arg artifactid=gitCat --build-arg version=1.0-jar-with-dependencies --no-cache -t gitcat .
 ```
 ### Avviare il Master Peer
 Una volta effettuata la build è necessario avviare il master peer tramite il seguente comando. 
