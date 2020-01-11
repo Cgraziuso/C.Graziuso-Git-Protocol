@@ -118,7 +118,7 @@ public class Example {
                         String pushCeck=peer.push(nome);
                         terminal.printf("\n MESSAGGIO PUSH: %s \n",pushCeck);
                         if(pushCeck.equals(Messaggi.SUCCESSOPUSH.getMessage()))
-                            pendingCommit=0;//-------------------------------
+                            pendingCommit=0;
                         break;
                     case 5:
                         terminal.printf("\nINSERIRE NOME DELLA REPOSITORY\n");
@@ -157,7 +157,6 @@ public class Example {
                         terminal.printf("\nSEI SICURO DI VOLER LASCIARE LA NETWORK?\n");
                         boolean exit = textIO.newBooleanInputReader().withDefaultValue(false).read("exit?");
                         if(exit) {
-                            //fare push/pull per eliminarsi dalla rete peermaddress. fare la pull  e dopo push senza di me ahahahahahahahha marzullo è gaio
                             peer.leaveNetwork();
                             System.exit(0);
                         }
@@ -187,7 +186,6 @@ public class Example {
                     .withDefaultValue("prova")
                     .read("Name:");
             File f = new File(  dir, name +".txt");
-
             terminal.printf("\nENTER TEXT OF FILE\n");
             String data = textIO.newStringInputReader()
                     .withDefaultValue("Lorem ipsum dolor sit amet")
@@ -197,7 +195,6 @@ public class Example {
                 fos.write(data.getBytes());
                 fos.flush();
                 fos.close();
-
                 BufferedReader br = new BufferedReader(new FileReader(f));
                 String st;
                 while ((st = br.readLine()) != null){

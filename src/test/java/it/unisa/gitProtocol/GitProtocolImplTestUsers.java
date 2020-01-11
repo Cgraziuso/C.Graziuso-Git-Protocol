@@ -2,8 +2,6 @@ package it.unisa.gitProtocol;
 import it.unisa.gitProtocol.implementation.*;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
@@ -14,7 +12,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class GitProtocolImplTestJUnit {
+public class GitProtocolImplTestUsers {
 
     private static final String _REPO_NAME = "test";
     private static final String COMMIT_MESSAGE = "Messaggio di test";
@@ -29,7 +27,7 @@ public class GitProtocolImplTestJUnit {
     private GitProtocolImpl peer3;
     private File pathDir[];
 
-    public GitProtocolImplTestJUnit() throws Exception {
+    public GitProtocolImplTestUsers() throws Exception {
         master = new GitProtocolImpl(0, "127.0.0.1", new MessageListenerImpl(0));
         peer1 = new GitProtocolImpl(1, "127.0.0.1", new MessageListenerImpl(1));
         peer2 = new GitProtocolImpl(2, "127.0.0.1", new MessageListenerImpl(2));

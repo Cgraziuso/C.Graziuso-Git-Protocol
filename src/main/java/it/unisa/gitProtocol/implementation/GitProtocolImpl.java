@@ -1,6 +1,6 @@
 package it.unisa.gitProtocol.implementation;
 
-import it.unisa.gitProtocol.entity.Commit;
+
 import it.unisa.gitProtocol.entity.Repository;
 import net.tomp2p.dht.FutureGet;
 import net.tomp2p.dht.PeerBuilderDHT;
@@ -146,6 +146,8 @@ public class GitProtocolImpl implements GitProtocol {
     public String push(String _repo_name) {
         if (this.repo == null)
             return Messaggi.NESSUNAREPOLOCALE.getMessage();
+        if(!this.repo.getRepoName().equals(_repo_name))
+            return Messaggi.NONESISTEREPO.getMessage();
         try {
             Repository dhtRepo = getRepoFromDht(_repo_name);
             int check=0;
@@ -179,9 +181,10 @@ public class GitProtocolImpl implements GitProtocol {
     public String pull(String _repo_name) {
         try{
             Repository dhtRepo = getRepoFromDht(_repo_name);
-            if (dhtRepo == null) {
+            if (dhtRepo == null)
                 return Messaggi.NONESISTEREPO.getMessage();
-            }
+            if(!this.repo.getRepoName().equals(_repo_name))
+                return Messaggi.NONESISTEREPO.getMessage();
             System.out.println(dhtRepo.toString());
             if(dhtRepo.hashCode()==this.repo.hashCode()) {
                 return Messaggi.REPOAGGIORNATA.getMessage();
@@ -307,7 +310,7 @@ public class GitProtocolImpl implements GitProtocol {
             {
                 if(!myIp.equals(ip))
                 {
-                    //fare messaggio a parte
+
                     FutureDirect futureDirect = peerDht.peer().sendDirect(ip).object("E' stata effettuata una push dall'utente "+_id + ". Fare una pull per aggiornare la repository").start();
                     futureDirect.awaitUninterruptibly();
                 }
@@ -324,8 +327,7 @@ public class GitProtocolImpl implements GitProtocol {
 
     public void leaveNetwork() {
         peerDht.peer().announceShutdown().start().awaitUninterruptibly();
-        if(repo != null);
-            //gestire e fare cose
+
     }
 
     public Repository getRepo()
