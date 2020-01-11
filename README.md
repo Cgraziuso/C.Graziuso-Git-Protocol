@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/Cgraziuso/C.Graziuso-Git-Protocol.svg?branch=master)](https://travis-ci.org/Cgraziuso/C.Graziuso-Git-Protocol)
 
-#Git Protocol
+# Git Protocol 
 Rete P2P che tenta di replicare una piccola parte del Protocollo di Git. Gli utenti possono creare una repository ed aggiungerci file.
 Altri utenti (peer) possono collaborare ad una repository esistente, modificando o aggiungendo file, oppure crearne una nuova.
 Il sistema consentirà a più utenti di modificare i file presenti nella versione locale della repository e 
@@ -9,7 +9,7 @@ gestirà eventuali merge di documenti in caso di commit pendenti.
 Autore: Graziuso Catello - Matricola 0522500680
 ```
 
-#Tecnologie Utilizzate
+# Tecnologie Utilizzate
 - Java 8
 - Tom P2P
 - JUnit
@@ -141,10 +141,87 @@ public boolean commit(String _repo_name, String _message) {
 ```
 
 ### Metodo push
+Il metodo commit prende in input i seguenti valori:
+	-_repo_name
+
+1. Effettua due controlli per verificare se la repository locale è null e, in caso contrario, se il nome coincide con _repo_name.
+2. Controlla se la repository nella dht è null oppure se quella locale contiene tutte le commit di quella caricata in rete
+3. In caso affermativo effettua la push sostituendo la repository nella dht con quella locale
+4. Manda un messaggio a tutti i contributori presenti in peerAddress
+5. Return un messaggio di successo.
 ##### Implementazione 
+```
+public String push(String _repo_name) {
+        if (this.repo == null)
+            return Messaggi.NESSUNAREPOLOCALE.getMessage();
+        if(!this.repo.getRepoName().equals(_repo_name))
+            return Messaggi.NONESISTEREPO.getMessage();
+        try {
+            Repository dhtRepo = getRepoFromDht(_repo_name);
+            int check=0;
+            if(pendingCommit>1)
+                check = pendingCommit-1;
+            if (dhtRepo == null || this.repo.getCommits().containsAll(dhtRepo.getCommits() ) )  
+            {
+                if(putRepoToDht(_repo_name, this.repo) )                                       
+                {
+                    pendingSet(0);                                                          
+                    //invio messaggio
+                    sendMessage(id, _repo_name, peer.peerAddress());                            
+                    return Messaggi.SUCCESSOPUSH.getMessage();
+                }
+            }else{
+                return  Messaggi.REPONONAGGIORNATA.getMessage();
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return "ERRORE NELLA DHT GET/PUT: " + e.getMessage();
+        }
+        return "ERRORE NELLA PUSH";
+    }
+```
 
 ### Metodo pull
+Il metodo commit prende in input i seguenti valori:
+	-_repo_name
+
+1. Effettua due controlli per verificare se la repository nella dht è null e, in caso contrario, se il nome della repository locale  coincide con _repo_name.
+2. Controlla se l'hash della repository locale coincide con l'hash della repository nella dht, in caso affermativo si possiede già la versione più aggiornata.
+3. Si effettua l'aggiornamento della repository locale gestendo possibili pending commit.
+4. Si effettua l'aggiornamento delle commit e dell'array peerAddress.
+5. Return un messaggio di successo.
+
 ##### Implementazione
+```
+public String pull(String _repo_name) {
+        try{
+            Repository dhtRepo = getRepoFromDht(_repo_name);
+            if (dhtRepo == null)
+                return Messaggi.NONESISTEREPO.getMessage();
+            if(!this.repo.getRepoName().equals(_repo_name))
+                return Messaggi.NONESISTEREPO.getMessage();
+            System.out.println(dhtRepo.toString());
+            if(dhtRepo.hashCode()==this.repo.hashCode()) {
+                return Messaggi.REPOAGGIORNATA.getMessage();
+            }
+            if(pendingCommit>0)                                                            
+            {
+                this.repo.updateRepoWithPending(dhtRepo, true);
+                pendingSet(0);
+            }else{
+                this.repo.updateRepoWithPending(dhtRepo, false);
+            }
+                this.repo.addCommit(dhtRepo.getCommits());
+                this.repo.setPeerAddress(dhtRepo.getPeerAddress());
+                if(!this.repo.getPeerAddress().contains(peer.peerAddress()))
+                {
+                    this.repo.getPeerAddress().add(peer.peerAddress());
+                }
+        } catch (ClassNotFoundException | IOException e) {
+            e.printStackTrace();
+        }
+        return Messaggi.SUCCESSOPULL.getMessage();
+ ```
 
 ## Altri metodi implementati
 ### Metodo createInitialRepository
