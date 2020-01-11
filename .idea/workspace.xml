@@ -3,9 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="8abbd284-f5e0-4018-b368-bd48c66d8192" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/unisa/gitProtocol/implementation/Example.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unisa/gitProtocol/implementation/Example.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/unisa/gitProtocol/implementation/GitProtocolImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unisa/gitProtocol/implementation/GitProtocolImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/unisa/gitProtocol/GitProtocolImplTestJUnit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/unisa/gitProtocol/GitProtocolImplTestUsers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unisa/gitProtocol/entity/Repository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unisa/gitProtocol/entity/Repository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/unisa/gitProtocol/GitProtocolImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/unisa/gitProtocol/GitProtocolImplTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/it/unisa/gitProtocol/entity/Repository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/it/unisa/gitProtocol/entity/Repository.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/it/unisa/gitProtocol/implementation/Example.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/it/unisa/gitProtocol/implementation/Example.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/it/unisa/gitProtocol/implementation/GitProtocolImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/it/unisa/gitProtocol/implementation/GitProtocolImpl.class" afterDir="false" />
@@ -79,7 +78,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.GitProtocolImplTest">
+  <component name="RunManager" selected="JUnit.GitProtocolImplTest.pullRepoDiversa">
     <configuration name="GitProtocolImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="gitCat" />
       <extension name="coverage">
@@ -110,39 +109,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GitProtocolImplTestUsers.getListFiles" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="gitCat" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="it.unisa.gitProtocol.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="it.unisa.gitProtocol" />
-      <option name="MAIN_CLASS_NAME" value="it.unisa.gitProtocol.GitProtocolImplTestUsers" />
-      <option name="METHOD_NAME" value="getListFiles" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="GitProtocolImplTestUsers.pullSuccess" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="gitCat" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="it.unisa.gitProtocol.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="it.unisa.gitProtocol" />
-      <option name="MAIN_CLASS_NAME" value="it.unisa.gitProtocol.GitProtocolImplTestUsers" />
-      <option name="METHOD_NAME" value="pullSuccess" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="GitProtocolImplTest.pullQuattroPeer" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="GitProtocolImplTest.pullRepoDiversa" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="gitCat" />
       <extension name="coverage">
         <pattern>
@@ -152,7 +119,39 @@
       </extension>
       <option name="PACKAGE_NAME" value="it.unisa.gitProtocol" />
       <option name="MAIN_CLASS_NAME" value="it.unisa.gitProtocol.GitProtocolImplTest" />
-      <option name="METHOD_NAME" value="pullQuattroPeer" />
+      <option name="METHOD_NAME" value="pullRepoDiversa" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GitProtocolImplTest.pushQuattroPeer" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="gitCat" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.unisa.gitProtocol.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="it.unisa.gitProtocol" />
+      <option name="MAIN_CLASS_NAME" value="it.unisa.gitProtocol.GitProtocolImplTest" />
+      <option name="METHOD_NAME" value="pushQuattroPeer" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GitProtocolImplTest.pushRepoDiversa" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="gitCat" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.unisa.gitProtocol.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="it.unisa.gitProtocol" />
+      <option name="MAIN_CLASS_NAME" value="it.unisa.gitProtocol.GitProtocolImplTest" />
+      <option name="METHOD_NAME" value="pushRepoDiversa" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -160,11 +159,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.GitProtocolImplTest.pullRepoDiversa" />
+        <item itemvalue="JUnit.GitProtocolImplTest.pushRepoDiversa" />
+        <item itemvalue="JUnit.GitProtocolImplTest.pushQuattroPeer" />
         <item itemvalue="JUnit.GitProtocolImplTest" />
         <item itemvalue="JUnit.GitProtocolImplTestUsers" />
-        <item itemvalue="JUnit.GitProtocolImplTestUsers.getListFiles" />
-        <item itemvalue="JUnit.GitProtocolImplTestUsers.pullSuccess" />
-        <item itemvalue="JUnit.GitProtocolImplTest.pullQuattroPeer" />
       </list>
     </recent_temporary>
   </component>

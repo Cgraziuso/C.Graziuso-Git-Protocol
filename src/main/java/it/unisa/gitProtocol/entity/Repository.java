@@ -85,13 +85,40 @@ public class Repository implements Serializable{
         this.peerAddress = peerAddress;
     }
 
+
+
     @Override
     public String toString() {
-        return "Repository{\n" + "repoName: " + repoName + "\n"+
-                "filemap=" + filemap +"\n"+
-                ", files=" + files +"\n"+
-                ", commits=" + commits +"\n"+
-                ", directory='" + directory + '\'' +'}'+"\n";
+        return  "NOME REPOSITORY: "+repoName + "\n"+
+                "FILEMAP:\n" + filemapToString() +
+                "FILES:\n" + filesToString() +
+                "COMMITS:\n" + commitToString() +
+                "DIRECTORY: '" + directory + '\'' +"\n";
+    }
+
+    public String filemapToString()
+    {
+        String result= "";
+        for (Map.Entry<File, String> entry: filemap.entrySet())
+            result += entry.getKey() + " " + entry.getValue() +"";
+
+        return result;
+    }
+    public String commitToString()
+    {
+        String result= "";
+        for (Commit c: commits)
+            result += c.toString() +"\n";
+
+        return result;
+    }
+    public String filesToString()
+    {
+        String result= "";
+        for (File f: files)
+            result += f.toString() +"\n";
+
+        return result;
     }
 
     @Override
@@ -227,8 +254,6 @@ public class Repository implements Serializable{
                 {
                     find= true;                                                //flag che attesta che il file è stato già trovato
                 }
-
-
             }
             if (find == false) {                                               //flag a false indica che il file non è presente nella repository locale
                 try { //creazione file con lo stesso contenuto

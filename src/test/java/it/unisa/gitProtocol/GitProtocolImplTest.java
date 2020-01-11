@@ -186,7 +186,7 @@ public class GitProtocolImplTest {
      */
 
     @Test
-    public void pushQuattroPeer() throws IOException {
+    public void pushTrePeer() throws IOException {
         master.createRepository(_REPO_NAME, pathDir[0]);
 
         List<File> files = new ArrayList<>();
@@ -348,6 +348,58 @@ public class GitProtocolImplTest {
         assertFalse(peer1.createInitialRepository(_REPO_NAME, pathDir[1]));
         System.out.println("repository duplicata");
 
+
+    }
+
+    /**
+     * TEST CASE 15 : createInitialRepository
+     * @result un peer vorrebbe effettuare una push ad una repository con nome differente da quella locale.
+     */
+    @Test
+    public void pushRepoDiversa() throws IOException {
+
+        master.createRepository(_REPO_NAME, pathDir[0]);
+        List<File> files = new ArrayList<>();
+        for(int i=0; i<3; i++)
+        {
+            String nomeFile = "file"+(i+1);
+            File file = new File(pathDir[0], nomeFile+".txt");
+            FileUtils.writeLines(file, Collections.singleton(TESTO1));
+            files.add(file);
+
+        }
+
+        master.addFilesToRepository(_REPO_NAME, files);
+        master.commit(_REPO_NAME, COMMIT_MESSAGE);
+        assertEquals(Messaggi.NONESISTEREPO.getMessage(), master.push("X"));
+        System.out.println(Messaggi.NONESISTEREPO.getMessage());
+
+
+    }
+    /**
+     * TEST CASE 16 : createInitialRepository
+     * @result un peer vorrebbe effettuare una pull ad una repository con nome differente da quella locale.
+     */
+    @Test
+    public void pullRepoDiversa() throws IOException {
+
+        master.createRepository(_REPO_NAME, pathDir[0]);
+        List<File> files = new ArrayList<>();
+        for(int i=0; i<3; i++)
+        {
+            String nomeFile = "file"+(i+1);
+            File file = new File(pathDir[0], nomeFile+".txt");
+            FileUtils.writeLines(file, Collections.singleton(TESTO1));
+            files.add(file);
+
+        }
+
+        master.addFilesToRepository(_REPO_NAME, files);
+        master.commit(_REPO_NAME, COMMIT_MESSAGE);
+        master.push(_REPO_NAME);
+        peer1.createRepository(_REPO_NAME, pathDir[1]);
+        assertEquals(Messaggi.NONESISTEREPO.getMessage(), peer1.pull("X"));
+        System.out.println(Messaggi.NONESISTEREPO.getMessage());
 
     }
 
