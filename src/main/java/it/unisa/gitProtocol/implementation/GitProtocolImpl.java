@@ -113,7 +113,10 @@ public class GitProtocolImpl implements GitProtocol {
      */
     public boolean addFilesToRepository(String _repo_name, List<File> files) {
         if (this.repo==null)return false;
-        if(!this.repo.getRepoName().equals(_repo_name))return false;
+        if(!this.repo.getRepoName().equals(_repo_name)){
+            System.out.println("IL NOME DELLA REPOSITORY LOCALE NON COINCIDE CON QUELLA DATA");
+            return false;
+        }
         try {
             return this.repo.addFiles(files);
         } catch (IOException ex) {

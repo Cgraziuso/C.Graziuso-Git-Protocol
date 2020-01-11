@@ -3,12 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="8abbd284-f5e0-4018-b368-bd48c66d8192" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/unisa/gitProtocol/entity/Repository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unisa/gitProtocol/entity/Repository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/unisa/gitProtocol/GitProtocolImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/unisa/gitProtocol/GitProtocolImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/it/unisa/gitProtocol/entity/Repository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/it/unisa/gitProtocol/entity/Repository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/it/unisa/gitProtocol/implementation/Example.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/it/unisa/gitProtocol/implementation/Example.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/it/unisa/gitProtocol/implementation/GitProtocolImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/it/unisa/gitProtocol/implementation/GitProtocolImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/it/unisa/gitProtocol/GitProtocolImplTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/it/unisa/gitProtocol/GitProtocolImplTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unisa/gitProtocol/implementation/GitProtocolImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unisa/gitProtocol/implementation/GitProtocolImpl.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
