@@ -33,17 +33,17 @@ Using Maven the TomP2P dependency has been inserted in the pom.xml file.
 ```
 The package ```/src/main/java/it/unisa/gitProtocol/implementation/``` provides the following Java classes:
 
- - Example, an interface that will be used by the terminal. It is able to interact with the developed system
- - GitProtocol, an interface that defines the main methods of the Git protocol.
- - GitProtocolImpl, an implementation of GitProtocol interface that uses the P2P library.
- - MessageListener, an interface for the listener of messages received from peers.
- - MessageListenerImpl, the implementation of the message listner interface.
- - Messages, a class containing all the error messages used in the project.
+- Example, an interface that will be used by the terminal. It is able to interact with the developed system
+- GitProtocol, an interface that defines the main methods of the Git protocol.
+- GitProtocolImpl, an implementation of GitProtocol interface that uses the P2P library.
+- MessageListener, an interface for the listener of messages received from peers.
+- MessageListenerImpl, the implementation of the message listner interface.
+- Messages, a class containing all the error messages used in the project.
 
 The package ```/src/main/java/it/unisa/gitProtocol/entity/``` provides the following Java classes:
 
- - Commit, the class representing the commit object.
- - Repository, the class representing the repository object.
+- Commit, the class representing the commit object.
+- Repository, the class representing the repository object.
 
 # Development
 
