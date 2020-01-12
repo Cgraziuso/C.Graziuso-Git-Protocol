@@ -1,16 +1,20 @@
-FROM ubuntu
+FROM maven:3 as builder
+RUN apt-get update && apt-get -y install git
+ARG url
 WORKDIR /app
-ADD . /app/gitCat
-
-
-FROM maven:3.5-jdk-8-alpine
-WORKDIR /app
-COPY --from=0 /app/gitCat /app
+RUN git clone ${url}
+ARG project
+WORKDIR /app/${project} 
 RUN mvn package
 
 FROM openjdk:8-jre-alpine
+WORKDIR /app
+ARG project
+ARG artifactid
+ARG version
+ENV artifact ${artifactid}-${version}.jar
 ENV MASTERIP=127.0.0.1
 ENV ID=0
-COPY --from=1 /app/target/gitCat-1.0-jar-with-dependencies.jar /
+COPY --from=builder /app/${project}/target/${artifact} /app
 
-CMD /usr/bin/java -jar gitCat-1.0-jar-with-dependencies.jar -m $MASTERIP -id $ID
+CMD /usr/bin/java -jar ${artifact} -m $MASTERIP -id $ID
