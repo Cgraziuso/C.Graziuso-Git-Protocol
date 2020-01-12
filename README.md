@@ -252,23 +252,23 @@ In order to help other peers in the network, when a peer push a repository, all 
 The test cases analyzed are the following:
 
  ## GitProtocolImpl
- -createRepository: creates a new repository; (TRUE)
- -createSecondRepository: creation of a new repository but it's duplicated; (FAILS)
- -addFilesToRepository: adds a list of File in a local repository; (TRUE)
- -addFilesToRepositoryRepoErrata: a peer adds a list of files to an incorrect repository; (FAILS)
- -addFilesToRepositoryInesistente: a peer adds a list of files to an repository that not exist; (FAILS)
- -commit: a peer commits after adding files to the local repository; (TRUE)
- -commitRepoSbagliata: a peer commits after adding files to an incorrect repository; (FAILS)
- -pushTrePeer : three peers push in sequence; (TRUE)
- -ConflittoPush : the push of all commits fails because the repository isn't updated; (FAILS)
- -pullSuccess : pulls the files from the network successfully; (TRUE)
- -PushRepositoryInesistente :  the push of all commits fails because the repository not exist; (FAILS)
- -pullRepositoryInesistente : a peer pulls to a non-existent repository; (FAILS) 
- -pullRepositoryAggiornata : a peer pulls but the repository is already updated; (TRUE)
- -createInitialRepository : creates a new repository with no all arguments; (TRUE)
- -createSecondInitialRepository : creation of a new inital repository fails but it's duplicated; (FAILS)
- -pushRepoDiversa: a peer pushes to a repository different than the local one; (FAILS)
- -pullRepoDiversa : a peer pulls a repository different than the local one; (FAILS)
+ 1. createRepository: creates a new repository; (TRUE)
+ 2. createSecondRepository: creation of a new repository but it's duplicated; (FAILS)
+ 3. addFilesToRepository: adds a list of File in a local repository; (TRUE)
+ 4. addFilesToRepositoryInesistente: a peer adds a list of files to an repository that not exist; (FAILS)
+ 5. commit: a peer commits after adding files to the local repository; (TRUE)
+ 6. commitRepoSbagliata: a peer commits after adding files to an incorrect repository; (FAILS)
+ 7. pushTrePeer : three peers push in sequence; (TRUE)
+ 8. ConflittoPush : the push of all commits fails because the repository isn't updated; (FAILS)
+ 9. pullSuccess : pulls the files from the network successfully; (TRUE)
+ 10. PushRepositoryInesistente :  the push of all commits fails because the repository not exist; (FAILS)
+ 11. pullRepositoryInesistente : a peer pulls to a non-existent repository; (FAILS) 
+ 12. pullRepositoryAggiornata : a peer pulls but the repository is already updated; (TRUE)
+ 13. createInitialRepository : creates a new repository with no all arguments; (TRUE)
+ 14. createSecondInitialRepository : creation of a new inital repository fails but it's duplicated; (FAILS)
+ 15. pushRepoDiversa: a peer pushes to a repository different than the local one; (FAILS)
+ 16. pullRepoDiversa : a peer pulls a repository different than the local one; (FAILS)
+
  
 
  ## GitProtocolImplUsers
