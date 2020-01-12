@@ -310,7 +310,7 @@ To adapt the Dockerfile to all projects of the same type, arguments have been ad
 ### In a Container Docker
 It is necessary to build the project via docker in order to create a container. In the folder where the Dockerfile is present, open the terminal and type the following command.
 ```
-sudo docker build --build-arg url=https://github.com/Cgraziuso/C.Graziuso-Git-Protocol.git --build-arg project=C.Graziuso-Git-Protocol --build-arg artifactid=gitCat --build-arg version=1.0-jar-with-dependencies --no-cache -t gitcat .
+docker build --build-arg url=https://github.com/Cgraziuso/C.Graziuso-Git-Protocol.git --build-arg project=C.Graziuso-Git-Protocol --build-arg artifactid=gitCat --build-arg version=1.0-jar-with-dependencies --no-cache -t gitcat .
 ```
 ### Start the Master Peer
 Once the build has been carried out, the master peer must be started using the following command.
