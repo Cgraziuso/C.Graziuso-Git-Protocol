@@ -302,14 +302,14 @@ The first maven:3 image was tagged with "builder".
 To adapt the Dockerfile to all projects of the same type, arguments have been added. In Docker, parameters can be passed using the ENV or ARG options. Both are set using the --build-arg option on the command line. The url, project, artifactid and version arguments which are respectively the url of the Git-hub project, the name of this project, the artifactid present in pom.xml and finally the version of the package. These arguments passed by command line during the build will allow the creation of the image of the developed project.
 
 
-# Come Buildare Git Protocol
+# How to Build Git Protocol
 
-### In un Container Docker
+### In a Container Docker
 It is necessary to build the project via docker in order to create a container. In the folder where the Dockerfile is present, open the terminal and type the following command.
 ```
 sudo docker build --build-arg url=https://github.com/Cgraziuso/C.Graziuso-Git-Protocol.git --build-arg project=C.Graziuso-Git-Protocol --build-arg artifactid=gitCat --build-arg version=1.0-jar-with-dependencies --no-cache -t gitcat .
 ```
-### Avviare il Master Peer
+### Start the Master Peer
 Once the build has been carried out, the master peer must be started using the following command.
 -i, -e are two arguments that indicate interactive mode (-i) and with two environment variables (-e).
 ```
@@ -317,7 +317,7 @@ docker run -i --name MASTER-PEER -e MASTERIP="127.0.0.1" -e ID=0 gitcat
 ```
 The MASTERIP env variable is the IP address of the master peer and the env variable ID is the unique id of the peer.
 
-### Avviare un Peer Generico
+### Start a Generic Peer
 Only after starting the MasterPeer it is possible to start other peers through the following instruction:
 ```
 docker run -i --name PEER-1 -e MASTERIP="172.17.0.2" -e ID=1 gitcat
