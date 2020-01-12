@@ -45,7 +45,7 @@ The package ```/src/main/java/it/unisa/gitProtocol/entity/``` provides the follo
   - Commit, the class representing the commit object.
   - Repository, the class representing the repository object.
 
-# Sviluppo
+# Development
 
 The Repository class is made up of the following instance variables:
 - filemap, hashmap containing the pair <FileName, ContentFile>.
@@ -61,7 +61,7 @@ The Commit class is made up of the following instance variables:
 - repoName, name of the repository to which the commits refer.
 - timestamp, TimeStamp of the moment when a Commit message was created.
 
-## Interfaccia GitProtocol
+## GitProtocol Interface
 The interface provided for the development of the GitProtocol project consists of the following methods:
 
 1. createRepository
@@ -70,7 +70,7 @@ The interface provided for the development of the GitProtocol project consists o
 4. push
 5. pull
 
-### Metodo createRepository
+### createRepository Method
 The createRepository method takes the following values as input:
 	-_repo_name
 	-_directory
@@ -79,7 +79,7 @@ The createRepository method takes the following values as input:
 2. In a try / catch create a local object of type Repository.
 3. If so, it will print.
 	
-##### Implementazione 
+##### Implementation 
 ```
 public boolean createRepository(String _repo_name, File _directory) {
         if (this.repo != null) {
@@ -95,7 +95,7 @@ public boolean createRepository(String _repo_name, File _directory) {
     }
 ```
 
-### Metodo addFileToRepository
+### addFileToRepository Method
 The addFileToRepository method takes the following values as input:
 	-_repo_name
 	-files
@@ -104,7 +104,7 @@ The addFileToRepository method takes the following values as input:
 2. Do a second check to see if the local repository name coicides with _repo_name
 3. If yes, in a try / catch, add the files present in the list of files in the local repository through addFiles (files).
 
-##### Implementazione 
+##### Implementation 
 ```
 public boolean addFilesToRepository(String _repo_name, List<File> files) {
         if (this.repo==null)return false;
@@ -117,7 +117,7 @@ public boolean addFilesToRepository(String _repo_name, List<File> files) {
     }
 ```
 
-### Metodo commit
+### commit Method
 The commit method takes the following values as input:
 	-_repo_name
 	-_message
@@ -125,7 +125,7 @@ The commit method takes the following values as input:
 1. Do a check to see if the local repository name coicides with _repo_name
 2. If yes, in a try / catch, add the _message message to the local repository through addCommit (_message).
 
-##### Implementazione 
+##### Implementation 
 ```
 public boolean commit(String _repo_name, String _message) {
         if(!this.repo.getRepoName().equals(_repo_name))return false;
@@ -137,7 +137,7 @@ public boolean commit(String _repo_name, String _message) {
     }
 ```
 
-### Metodo push
+### push Method
 The commit method takes the following values as input:
 	-_repo_name
 
@@ -146,7 +146,7 @@ The commit method takes the following values as input:
 3. If yes, push by replacing the repository in the dht with the local one
 4. Send a message to all contributors in peerAddress
 5. Return a successful message.
-##### Implementazione 
+##### Implementation 
 ```
 public String push(String _repo_name) {
         if (this.repo == null)
@@ -178,7 +178,7 @@ public String push(String _repo_name) {
     }
 ```
 
-### Metodo pull
+### pull Method
 The commit method takes the following values as input:
 	-_repo_name
 	
@@ -188,7 +188,7 @@ The commit method takes the following values as input:
 4. The commits and peerAddress array are updated.
 5. Return a successful message.
 
-##### Implementazione
+##### Implementation
 ```
 public String pull(String _repo_name) {
         try{
@@ -220,7 +220,7 @@ public String pull(String _repo_name) {
         return Messaggi.SUCCESSOPULL.getMessage();
  ```
 
-## Altri metodi implementati
+## Other methods implemented
 ### createInitialRepository method
 Create an initial repository before pulling only if the local repository is non-existent.
 ### getListFiles method
@@ -239,7 +239,7 @@ Allows you to change the number of pending commits.
 Allows you to leave the P2P network.
 ### getRepo method
 
-## Migliorie
+## Improvements
 ### File Exploration
 For a better readability of the local files, each user is given the possibility to explore the files present in his own repository. In particular, through the getListFiles and getContentFile methods it is possible to obtain a complete list of the files present and read their contents. These operations are very useful for verifying a file merge following pending commits.
 
@@ -252,53 +252,52 @@ In order to help other peers in the network, when a peer push a repository, all 
 The test cases analyzed are the following:
 
  ## GitProtocolImpl
-createRepository: creates a new repository; (TRUE)
-createSecondRepository: creation of a new repository but it's duplicated; (FAILS)
-addFilesToRepository: adds a list of File in a local repository; (TRUE)
-addFilesToRepositoryRepoErrata: a peer adds a list of files to an incorrect repository; (FAILS)
-addFilesToRepositoryInesistente: a peer adds a list of files to an repository that not exist; (FAILS)
-commit: a peer commits after adding files to the local repository; (TRUE)
-commitRepoSbagliata: a peer commits after adding files to an incorrect repository; (FAILS)
-pushTrePeer : three peers push in sequence; (TRUE)
-ConflittoPush : the push of all commits fails because the repository isn't updated; (FAILS)
-pullSuccess : pulls the files from the network successfully; (TRUE)
-PushRepositoryInesistente :  the push of all commits fails because the repository not exist; (FAILS)
-pullRepositoryInesistente : a peer pulls to a non-existent repository; (FAILS)
-pullRepositoryAggiornata : a peer pulls but the repository is already updated; (TRUE)
-createInitialRepository : creates a new repository with no all arguments; (TRUE)
-createSecondInitialRepository : creation of a new inital repository fails but it's duplicated; (FAILS)
-pushRepoDiversa: a peer pushes to a repository different than the local one; (FAILS)
-pullRepoDiversa : a peer pulls a repository different than the local one; (FAILS)
+ -createRepository: creates a new repository; (TRUE)
+ -createSecondRepository: creation of a new repository but it's duplicated; (FAILS)
+ -addFilesToRepository: adds a list of File in a local repository; (TRUE)
+ -addFilesToRepositoryRepoErrata: a peer adds a list of files to an incorrect repository; (FAILS)
+ -addFilesToRepositoryInesistente: a peer adds a list of files to an repository that not exist; (FAILS)
+ -commit: a peer commits after adding files to the local repository; (TRUE)
+ -commitRepoSbagliata: a peer commits after adding files to an incorrect repository; (FAILS)
+ -pushTrePeer : three peers push in sequence; (TRUE)
+ -ConflittoPush : the push of all commits fails because the repository isn't updated; (FAILS)
+ -pullSuccess : pulls the files from the network successfully; (TRUE)
+ -PushRepositoryInesistente :  the push of all commits fails because the repository not exist; (FAILS)
+ -pullRepositoryInesistente : a peer pulls to a non-existent repository; (FAILS) 
+ -pullRepositoryAggiornata : a peer pulls but the repository is already updated; (TRUE)
+ -createInitialRepository : creates a new repository with no all arguments; (TRUE)
+ -createSecondInitialRepository : creation of a new inital repository fails but it's duplicated; (FAILS)
+ -pushRepoDiversa: a peer pushes to a repository different than the local one; (FAILS)
+ -pullRepoDiversa : a peer pulls a repository different than the local one; (FAILS)
 
  ## GitProtocolImplUsers
 This class attempts to simulate an iteration that four peers have with the system.
 In particular, it explores all possible cases of Repository exploration and simulates a communication of four peers through 4 push / pull in sequence. Obviously all the operations of create, addFile and commit have been used.
 
 # Dockerfile
-FROM alpine/git as clone
+FROM maven:3 as builder
+RUN apt-get update && apt-get -y install git
 ARG url
 WORKDIR /app
 RUN git clone ${url}
-
-FROM maven:3.5-jdk-8-alpine as builder
 ARG project
-WORKDIR /app
-COPY --from=clone /app/${project} /app
+WORKDIR /app/${project} 
 RUN mvn package
 
 FROM openjdk:8-jre-alpine
+WORKDIR /app
+ARG project
 ARG artifactid
 ARG version
 ENV artifact ${artifactid}-${version}.jar
-WORKDIR /app
 ENV MASTERIP=127.0.0.1
 ENV ID=0
-COPY --from=builder /app/target/${artifact} /app
+COPY --from=builder /app/${project}/target/${artifact} /app
 
 CMD /usr/bin/java -jar ${artifact} -m $MASTERIP -id $ID
 
 For better readability of the Dockerfile, labels have been inserted to better identify the various images used.
-The first alpine / git image was tagged with "clone" while maven: 3.5-jdk-8-alpine with "builder".
+The first maven:3 image was tagged with "builder".
 To adapt the Dockerfile to all projects of the same type, arguments have been added. In Docker, parameters can be passed using the ENV or ARG options. Both are set using the --build-arg option on the command line. The url, project, artifactid and version arguments which are respectively the url of the Git-hub project, the name of this project, the artifactid present in pom.xml and finally the version of the package. These arguments passed by command line during the build will allow the creation of the image of the developed project.
 
 
