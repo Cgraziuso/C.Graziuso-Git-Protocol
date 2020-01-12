@@ -276,26 +276,25 @@ This class attempts to simulate an iteration that four peers have with the syste
 In particular, it explores all possible cases of Repository exploration and simulates a communication of four peers through 4 push / pull in sequence. Obviously all the operations of create, addFile and commit have been used.
 
 # Dockerfile
-FROM maven:3 as builder
-RUN apt-get update && apt-get -y install git
-ARG url
-WORKDIR /app
-RUN git clone ${url}
-ARG project
-WORKDIR /app/${project} 
-RUN mvn package
+1. FROM maven:3 as builder
+2. RUN apt-get update && apt-get -y install git
+3. ARG url
+4. WORKDIR /app
+5. RUN git clone ${url}
+6. ARG project
+7. WORKDIR /app/${project} 
+8. RUN mvn package
 
-FROM openjdk:8-jre-alpine
-WORKDIR /app
-ARG project
-ARG artifactid
-ARG version
-ENV artifact ${artifactid}-${version}.jar
-ENV MASTERIP=127.0.0.1
-ENV ID=0
-COPY --from=builder /app/${project}/target/${artifact} /app
-
-CMD /usr/bin/java -jar ${artifact} -m $MASTERIP -id $ID
+9. FROM openjdk:8-jre-alpine
+10. WORKDIR /app
+11. ARG project
+12. ARG artifactid
+13. ARG version
+14. ENV artifact ${artifactid}-${version}.jar
+15. ENV MASTERIP=127.0.0.1
+16. ENV ID=0
+17. COPY --from=builder /app/${project}/target/${artifact} /app
+18. CMD /usr/bin/java -jar ${artifact} -m $MASTERIP -id $ID
 
 For better readability of the Dockerfile, labels have been inserted to better identify the various images used.
 The first maven:3 image was tagged with "builder".
