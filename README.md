@@ -238,6 +238,7 @@ Allows you to change the number of pending commits.
 ### leaveNetwork method
 Allows you to leave the P2P network.
 ### getRepo method
+Retrieves the Repository local object.
 
 ## Improvements
 ### File Exploration
