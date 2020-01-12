@@ -269,6 +269,7 @@ The test cases analyzed are the following:
  -createSecondInitialRepository : creation of a new inital repository fails but it's duplicated; (FAILS)
  -pushRepoDiversa: a peer pushes to a repository different than the local one; (FAILS)
  -pullRepoDiversa : a peer pulls a repository different than the local one; (FAILS)
+ 
 
  ## GitProtocolImplUsers
 This class attempts to simulate an iteration that four peers have with the system.
